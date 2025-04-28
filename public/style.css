@@ -1,0 +1,263 @@
+/* === Globale variablar og basisstil === */
+:root {
+    --text-color: #f0f0f0;
+    --accent-color: #00ff88;
+    --background-color: #0d1a17;
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(0, 255, 136, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* === Lenker === */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #00ffbb;
+    text-decoration: underline;
+}
+
+/* === Topnavigasjon === */
+.nav {
+    background-color: rgba(0, 255, 136, 0.05);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.nav a {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* === Hovudbehaldar for heile sida === */
+.page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* === Sidetittel === */
+.page-title {
+    color: var(--text-color);
+    margin: 0 0 2rem 0;
+    font-size: 1.8rem;
+    position: relative;
+    text-align: center;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+/* === Skjema boks === */
+.form-box {
+    background: rgba(13, 26, 23, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.1);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-box h2 {
+    color: var(--text-color);
+    margin: 0 0 1.5rem 0;
+    font-size: 1.4rem;
+    position: relative;
+    text-align: center;
+}
+
+.form-box h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+/* === Inputfelt og knappar === */
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px rgba(0, 255, 136, 0.4);
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-color);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #00cc70;
+}
+
+/* === Filmcontainer styling === */
+.movies-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* === Filmkort styling === */
+.movie-card {
+    background: rgba(13, 26, 23, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 255, 136, 0.3);
+}
+
+/* === Filmplakat === */
+.movie-poster {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+/* === Filminfo === */
+.movie-info {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.movie-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+.movie-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.movie-info i {
+    margin-right: 0.5rem;
+    color: var(--accent-color);
+    opacity: 0.8;
+}
+
+/* === Ikon i inputfelt === */
+form div {
+    position: relative;
+}
+
+form div i {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: var(--accent-color);
+    opacity: 0.7;
+}
+
+/* === Responsivitet === */
+@media (max-width: 768px) {
+    .movies-container {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    .movie-poster {
+        height: 220px;
+    }
+}
+
+@media (max-width: 500px) {
+    .page-container {
+        padding: 1rem;
+    }
+
+    .form-box {
+        padding: 1.5rem 1rem;
+    }
+
+    .movies-container {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    .movie-poster {
+        height: 200px;
+    }
+
+    .movie-info h3 {
+        font-size: 1rem;
+    }
+
+    .movie-info p {
+        font-size: 0.8rem;
+    }
+}

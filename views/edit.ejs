@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rediger Profil - OSS AS</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="navlinks">
+                <li>
+                    <a href="/home">
+                        <i class="fas fa-home"></i> Heim
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" class="active">
+                        <i class="fas fa-user"></i> Min profil
+                    </a>
+                </li>
+                <% if (admin) { %>
+                  <li>
+                  <a href="/admin"> <i class="fas fa-cogs"></i> Admin </a>
+                  </li>
+                  <% } %>
+                <li>
+                    <a href="/logout">
+                        <i class="fas fa-sign-out-alt"></i> Logg ut
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="form-box">
+                <h1>Rediger Profil</h1>
+                <form action="/profile/edit/<%= user.id %>" method="post">
+
+                    <div class="input-container">
+                        <label>Fornavn:</label>
+                        <input type="text" name="firstname" placeholder="Fornavn" value="<%= user.firstname %>"
+                            required>
+                    </div>
+
+                    <div class="input-container">
+                        <label>Etternavn:</label>
+                        <input type="text" name="lastname" placeholder="Etternavn" value="<%= user.lastname %>"
+                            required>
+                    </div>
+
+                    <div class="input-container">
+                        <label>Epost:</label>
+                        <input type="email" name="email" placeholder="E-post" value="<%= user.email %>" readonly>
+                    </div>
+                    
+
+                    <button type="submit" class="save-btn">Lagre endringer</button>
+                    <button type="button" class="cancel-btn" onclick="window.history.back()">Avbryt</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
