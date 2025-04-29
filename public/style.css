@@ -332,3 +332,11 @@ form div i {
 #admin-nav a i {
     margin-right: 0.5rem;
 }
+
+#leggtil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 3%;
+}

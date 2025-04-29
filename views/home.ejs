@@ -27,8 +27,11 @@
   <div class="page-container">
     <h1 class="page-title">EmreBoxd</h1>
     
-    
-    
+    <!-- Knapp for å legge til film -->
+    <a href="/movies/add" id="leggtil">
+      <button class="add-movie-button">Legg til film</button>
+    </a>
+
     <div class="movies-container">
       <% movies.forEach(movie => { %>
         <div class="movie-card">
@@ -39,9 +42,42 @@
             <p><i class="fas fa-star"></i> <strong>Rating:</strong> <%= movie.rating %> ⭐</p>
             <p><i class="fas fa-tag"></i> <strong>Sjanger:</strong> <%= movie.sjanger %></p>
           </div>
+
+          <!-- Rediger og slett knapper (admin eller eier) -->
+          <% if (admin || movie.user_id === userid) { %>
+            <div class="movie-actions">
+              <% if (admin) { %>
+                <!-- Admin kan redigere eller slette hvilken som helst film -->
+                <a href="/admin/edit/<%= movie.id %>"><button class="edit-button">Rediger</button></a>
+                <form action="/admin/delete/<%= movie.id %>" method="POST" style="display:inline;" onsubmit="return confirmDelete(event)">
+                  <button type="submit" class="delete-button">Slett</button>
+                </form>                
+              <% } else if (movie.user_id === userid) { %>
+                <!-- Vanlig bruker kan kun redigere eller slette sine egne filmer -->
+                <a href="/profile/edit_movie/<%= movie.id %>"><button class="edit-button">Rediger</button></a>
+                <form action="/profile/delete_movie/<%= movie.id %>" method="POST" style="display:inline;" onsubmit="return confirmDelete(event)">
+                  <button type="submit" class="delete-button">Slett</button>
+                </form>
+              <% } %>
+            </div>
+          <% } %>
         </div>
       <% }) %>
     </div>
   </div>
+
+  <script>
+    // Bekreft sletting før det sendes
+    function confirmDelete(event) {
+      event.preventDefault();  // Hindrer formens standard oppførsel
+      const userConfirmed = confirm("Er du sikker på at du vil slette denne filmen?");
+      
+      if (userConfirmed) {
+        event.target.submit();  // Sender formen hvis brukeren bekrefter
+      }
+      return false;  // Sørg for at ingen ytterligere handling skjer hvis ikke bekreftet
+    }
+  </script>
 </body>
+
 </html>

@@ -106,14 +106,20 @@ app.post('/auth', async function (req, res) {
 
 // Henter fila home.ejs (heimesida)
 app.get("/home", async (req, res) => {
-    const db = await dbPromise;
     const admin = req.session.admin;
+    const userid = req.session.userid; // Hent brukerens ID fra session
 
-    // Hent topp 10 filmer
-    const movies = await db.all("SELECT * FROM top_10_movies ORDER BY rating DESC LIMIT 10");
+    // Hvis ikke bruker er logget inn
+    if (!userid) {
+        return res.redirect("/login"); // Eller en annen rute for å logge inn
+    }
 
-    res.render("home", { admin, movies });
+    const db = await dbPromise;
+    const movies = await db.all("SELECT * FROM movies"); // Hent alle filmer fra databasen
+
+    res.render("home", { movies, admin, userid }); // Send både movies, admin og userid til EJS-filen
 });
+
 
 app.get("/logout", async (req, res) => {
 
@@ -129,8 +135,8 @@ app.get('/profile', async function (req, res) {
         const userid = req.session.userid;
         const admin = req.session.admin;
         const db = await dbPromise;
-        let getUserDetails = `SELECT * FROM users WHERE id = '${userid}'`;
-        let user = await db.get(getUserDetails);
+        let getUserDetails = `SELECT * FROM users WHERE id = ?`;
+        let user = await db.get(getUserDetails, [userid]);
 
         if (user === undefined) {
             res.status(400);
@@ -264,15 +270,27 @@ app.get("/admin/edit/:id", async (req, res) => {
     }
 
     const db = await dbPromise;
-    const userId = req.params.id; // Henter brukerens ID fra URL
-    const user = await db.get("SELECT * FROM users WHERE id = ?", [userId]);
+    const movieId = req.params.id; // Henter filmens ID fra URL
 
-    if (!user) {
-        return res.status(404).send("Bruker ikke funnet");
+    console.log("MovieID from URL:", movieId); // Logg for å se om ID-en kommer med korrekt
+
+    // Hent filmen basert på filmens ID, og sjekk om brukeren har tilgang til å redigere den
+    const movie = await db.get("SELECT * FROM movies WHERE id = ?", [movieId]);
+
+    console.log("Fetched movie:", movie); // Logg for å sjekke om filmen er hentet
+
+    if (!movie) {
+        return res.status(404).send("Film ikke funnet");
     }
 
-    res.render("admin_edit", { user, admin });
+    // Hvis admin er logget inn, eller filmen tilhører den innloggede brukeren, send til editMovie.ejs
+    if (admin || movie.user_id === req.session.userid) {
+        res.render("editMovie", { movie, admin }); // Sender filmen til editMovie.ejs
+    } else {
+        return res.status(403).send("Du har ikke tilgang til å redigere denne filmen");
+    }
 });
+
 
 app.post("/admin/edit/:id", async (req, res) => {
     const admin = req.session.admin;
@@ -294,5 +312,123 @@ app.post("/admin/edit/:id", async (req, res) => {
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).send("Error updating user.");
+    }
+});
+
+app.get('/movies/add', async (req, res) => {
+    if (!req.session.loggedin) {
+        return res.redirect('/login'); // Brukeren må være logget inn for å legge til filmer
+    }
+    const admin = req.session.admin || false; // Sjekk om brukeren er admin
+    res.render('addMovie', { admin }); // Send admin-status til EJS
+});
+
+
+// POST-forespørsel for å legge til filmen
+app.post('/movies/add', async (req, res) => {
+    try {
+        const db = await dbPromise;
+        const { tittel, årstall, rating, regissør, sjanger, image_url } = req.body;
+        const userId = req.session.userid; // Hente brukerens ID
+
+        // Sjekk at alle nødvendige data er sendt
+        if (!tittel || !årstall || !rating || !regissør || !sjanger || !image_url) {
+            return res.status(400).send('Alle felt må fylles ut'); // Returner feilmelding hvis noen felter mangler
+        }
+
+        // Sett inn dataene i "movies" tabellen
+        await db.run('INSERT INTO movies (tittel, årstall, rating, regissør, sjanger, image_url, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [tittel, årstall, rating, regissør, sjanger, image_url, userId]);
+
+        // Omdiriger brukeren tilbake til hjemmesiden etter at filmen er lagt til
+        res.redirect('/home'); 
+    } catch (error) {
+        console.error('Error while adding movie:', error);
+        res.status(500).send('Noe gikk galt. Vennligst prøv igjen senere.');
+    }
+});
+
+
+// Rediger en film
+app.get('/movies/edit/:id', async (req, res) => {
+    const db = await dbPromise;
+    const movieId = req.params.id;
+    const movie = await db.get('SELECT * FROM movies WHERE id = ?', [movieId]);
+
+    if (!movie) {
+        return res.status(404).send('Film ikke funnet');
+    }
+
+    if (req.session.admin || movie.user_id === req.session.userid) {
+        res.render('editMovie', { movie });
+    } else {
+        return res.status(403).send('Du har ikke tilgang til å redigere denne filmen');
+    }
+});
+
+// POST-forespørsel for å oppdatere filmen
+app.post('/movies/edit/:id', async (req, res) => {
+    const db = await dbPromise;
+    const { tittel, årstall, rating, regissør, sjanger, image_url } = req.body;
+    const movieId = req.params.id;
+
+    const movie = await db.get('SELECT * FROM movies WHERE id = ?', [movieId]);
+    
+    if (!movie) {
+        return res.status(404).send('Film ikke funnet');
+    }
+
+    // Sjekk om brukeren har tilgang
+    if (req.session.admin || movie.user_id === req.session.userid) {
+        await db.run('UPDATE movies SET tittel = ?, årstall = ?, rating = ?, regissør = ?, sjanger = ?, image_url = ? WHERE id = ?', [tittel, årstall, rating, regissør, sjanger, image_url, movieId]);
+        res.redirect('/home');
+    } else {
+        res.status(403).send('Du har ikke tilgang til å redigere denne filmen');
+    }
+});
+
+// Route for sletting av film (bruker)
+app.post('/profile/delete_movie/:id', async (req, res) => {
+    if (!req.session.loggedin) {
+        return res.redirect('/login');  // Sørger for at brukeren er logget inn
+    }
+
+    const movieId = req.params.id;
+    const userId = req.session.userid;  // Brukerens ID fra sesjonen
+
+    // Sjekk om filmen finnes i databasen
+    const db = await dbPromise;
+    const movie = await db.get('SELECT * FROM movies WHERE id = ?', [movieId]);
+
+    // Hvis filmen finnes, sjekk om brukeren er eieren eller admin
+    if (movie) {
+        if (movie.user_id === userId || req.session.admin) {
+            // Hvis filmen tilhører brukeren eller brukeren er admin, slett filmen
+            await db.run('DELETE FROM movies WHERE id = ?', [movieId]);
+            res.redirect('/home');  // Tilbake til forsiden etter sletting
+        } else {
+            res.status(403).send('Du kan ikke slette denne filmen');  // Hvis filmen ikke tilhører brukeren
+        }
+    } else {
+        res.status(404).send('Film ikke funnet');
+    }
+});
+
+// Route for sletting av film (admin)
+app.post('/admin/delete/:id', async (req, res) => {
+    if (!req.session.loggedin || !req.session.admin) {
+        return res.redirect('/login');  // Sørger for at admin er logget inn
+    }
+
+    const movieId = req.params.id;
+
+    // Slett filmen som admin
+    const db = await dbPromise;
+    const movie = await db.get('SELECT * FROM movies WHERE id = ?', [movieId]);
+
+    if (movie) {
+        await db.run('DELETE FROM movies WHERE id = ?', [movieId]);
+        res.redirect('/admin');  // Send admin tilbake til admin-siden
+    } else {
+        res.status(404).send('Film ikke funnet');
     }
 });

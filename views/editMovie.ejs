@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
+
+  <title>Heim</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul class="nav">
+        <ul><a href="/home" class="active"><i class="fas fa-home"></i> Heim</a></ul>
+        <ul><a href="/profile"><i class="fas fa-user"></i> Min profil</a></ul>
+        <% if (admin) { %>
+          <ul><a href="/admin"><i class="fas fa-cogs"></i> Admin</a></ul>
+        <% } %>
+        <ul><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logg ut</a></ul>
+      </ul>
+    </nav>
+  </header>
+  
+  <div class="page-container">
+    <h1 class="page-title">EmreBoxd</h1>
+    
+    
+    
+    <form action="/movies/edit/<%= movie.id %>" method="POST">
+        <label for="tittel">Tittel</label>
+        <input type="text" name="tittel" value="<%= movie.tittel %>" required>
+    
+        <label for="årstall">Årstall</label>
+        <input type="number" name="årstall" value="<%= movie.årstall %>" required>
+    
+        <label for="rating">Rating</label>
+        <input type="number" name="rating" value="<%= movie.rating %>" step="0.1" required>
+    
+        <label for="regissør">Regissør</label>
+        <input type="text" name="regissør" value="<%= movie.regissør %>" required>
+    
+        <label for="sjanger">Sjanger</label>
+        <input type="text" name="sjanger" value="<%= movie.sjanger %>" required>
+    
+        <label for="image_url">Image URL</label>
+        <input type="text" name="image_url" value="<%= movie.image_url %>" required>
+    
+        <button type="submit">Oppdater film</button>
+    </form>
+    
+    </div>
+  </div>
+</body>
+</html>
