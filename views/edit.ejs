@@ -4,37 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rediger Profil - OSS AS</title>
+    <title>Rediger Profil - EmreBoxd</title>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/profile.css">
     <script src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
 </head>
 
 <body>
     <header>
         <nav>
-            <ul class="navlinks">
-                <li>
-                    <a href="/home">
-                        <i class="fas fa-home"></i> Heim
-                    </a>
-                </li>
-                <li>
-                    <a href="/profile" class="active">
-                        <i class="fas fa-user"></i> Min profil
-                    </a>
-                </li>
+            <ul class="nav">
+                <ul><a href="/home"><i class="fas fa-home"></i> Heim</a></ul>
+                <ul><a href="/profile" class="active"><i class="fas fa-user"></i> Min profil</a></ul>
                 <% if (admin) { %>
-                  <li>
-                  <a href="/admin"> <i class="fas fa-cogs"></i> Admin </a>
-                  </li>
-                  <% } %>
-                <li>
-                    <a href="/logout">
-                        <i class="fas fa-sign-out-alt"></i> Logg ut
-                    </a>
-                </li>
+                <ul><a href="/admin"><i class="fas fa-cogs"></i> Admin</a></ul>
+                <% } %>
+                <ul><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logg ut</a></ul>
             </ul>
         </nav>
+        
     </header>
     
     <main>
@@ -44,13 +32,13 @@
                 <form action="/profile/edit/<%= user.id %>" method="post">
 
                     <div class="input-container">
-                        <label>Fornavn:</label>
+                        <label>Fornamn:</label>
                         <input type="text" name="firstname" placeholder="Fornavn" value="<%= user.firstname %>"
                             required>
                     </div>
 
                     <div class="input-container">
-                        <label>Etternavn:</label>
+                        <label>Etternamn:</label>
                         <input type="text" name="lastname" placeholder="Etternavn" value="<%= user.lastname %>"
                             required>
                     </div>
@@ -61,7 +49,7 @@
                     </div>
                     
 
-                    <button type="submit" class="save-btn">Lagre endringer</button>
+                    <button type="submit" class="save-btn">Lagre endringar</button>
                     <button type="button" class="cancel-btn" onclick="window.history.back()">Avbryt</button>
                 </form>
             </div>

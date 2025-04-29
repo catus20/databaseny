@@ -14,33 +14,37 @@
 <body>
     <header>
         <nav>
-            <ul class="navlinks">
-                <li>
+            <ul class="nav">
+                <ul>
                     <a href="/home">
                         <i class="fas fa-home"></i> Heim
                     </a>
-                </li>
-                <li>
+                </ul>
+                <ul>
                     <a href="/profile" class="active">
                         <i class="fas fa-user"></i> Min profil
                     </a>
-                </li>
+                </ul>
                 <% if (admin) { %>
-                  <li>
-                  <a href="/admin"> <i class="fas fa-cogs"></i> Admin </a>
-                  </li>
-                  <% } %>
-                <li>
+                <ul>
+                    <a href="/admin">
+                        <i class="fas fa-cogs"></i> Admin
+                    </a>
+                </ul>
+                <% } %>
+                <ul>
                     <a href="/logout">
                         <i class="fas fa-sign-out-alt"></i> Logg ut
                     </a>
-                </li>
+                </ul>
             </ul>
         </nav>
+        
       </header>
+      
 
       <main>
-        <div class="container">
+        <div class="container" id="containerprofile">
             <!-- Profilseksjon -->
             <div class="profile-container">
                 <h2>Min Profil</h2>
@@ -49,9 +53,10 @@
                 <p><strong>Etternavn:</strong> <%= user.lastname %></p>
                 <p><strong>E-post:</strong> <%= user.email %></p>
             </div>
-            <a href="/profile/edit">Endre profil</a>
+            <a href="/profile/edit" class="btn">Endre profil</a> <!-- Legger til klasse for knappstil -->
         </div>
     </main>
+    
     
     
 </body>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <script src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
 
   <title>Heim</title>
@@ -14,32 +14,18 @@
   <header>
     <nav>
       <ul class="nav">
-        <li>
-          <a href="/home" class="active">
-            <i class="fas fa-home"></i> Heim
-          </a>
-        </li>
-        <li>
-          <a href="/profile">
-            <i class="fas fa-user"></i> Min profil
-          </a>
-        </li>
+        <ul><a href="/home" class="active"><i class="fas fa-home"></i> Heim</a></ul>
+        <ul><a href="/profile"><i class="fas fa-user"></i> Min profil</a></ul>
         <% if (admin) { %>
-          <li>
-            <a href="/admin"> <i class="fas fa-cogs"></i> Admin </a>
-          </li>
+          <ul><a href="/admin"><i class="fas fa-cogs"></i> Admin</a></ul>
         <% } %>
-        <li>
-          <a href="/logout">
-            <i class="fas fa-sign-out-alt"></i> Logg ut
-          </a>
-        </li>
+        <ul><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logg ut</a></ul>
       </ul>
     </nav>
   </header>
   
   <div class="page-container">
-    <h1 class="page-title">IMDb Top 10 Movies</h1>
+    <h1 class="page-title">EmreBoxd</h1>
     
     
     
