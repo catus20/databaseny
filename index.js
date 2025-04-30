@@ -95,9 +95,8 @@ app.post('/auth', async function (req, res) {
             // Redirect til heimesida
             res.redirect('/home');
         } else {
-            res.status(400);
-            res.send("Invalid password");
-            res.redirect("/");
+            res.redirect("/login");
+            res.send("<script>alert('Feil passord. Vennligst prøv igjen.'); window.location.href = '/login';</script>");
         }
 
     }
@@ -139,18 +138,19 @@ app.get('/profile', async function (req, res) {
         let user = await db.get(getUserDetails, [userid]);
 
         if (user === undefined) {
-            res.status(400);
-            res.send("Invalid user");
+            res.status(404).send("User not found"); // Endret fra 400 til 404 for mer presis feilmelding
         } else {
             res.status(200);
-            // Hent filmer som er favoritter for denne brukeren
+            // Hent filmer som er favoritter for denne brukeren (om det er nødvendig)
             res.render('profile', { userid, user, admin });
         }
     }
     else {
-        return res.render(403);
+        // Brukeren er ikke logget inn - gi en mer beskrivende feilmelding
+        res.status(403).render('error', { message: "You need to be logged in to view your profile." }); // Endret for å vise en feilside
     }
 });
+
 
 
 // Rute for å håndtere POST-forespørsler til '/admin/delete/:id'.
@@ -211,7 +211,7 @@ app.post('/profile/edit/:id', async function (req, res) {
 
     // henter ut firstname og lastname frå <form> i edit.ejs 
     // desse er "name" i <input> feltet, og må skrives på same måte 
-    const { firstname, lastname } = req.body; 
+    const { firstname, lastname } = req.body;
 
     const query = "UPDATE users SET firstname = ?, lastname = ? WHERE id = ?";
 
@@ -292,28 +292,50 @@ app.get("/admin/edit/:id", async (req, res) => {
 });
 
 
-app.post("/admin/edit/:id", async (req, res) => {
+// Admin oppdatering av bruker (inkludert rolle)
+app.get("/admin/edit-user/:id", async (req, res) => {
     const admin = req.session.admin;
-    if (!req.session.admin) {
+    if (!admin) {
+        return res.redirect("/home"); // Sikrer at kun admin har tilgang
+    }
+
+    const db = await dbPromise;
+    const userId = req.params.id;
+
+    const user = await db.get("SELECT * FROM users WHERE id = ?", [userId]);
+
+    if (!user) {
+        return res.status(404).send("Bruker ikke funnet");
+    }
+
+    // Sende brukerdata til editUser.ejs
+    res.render("editUser", { user, admin });
+});
+
+app.post("/admin/edit-user/:id", async (req, res) => {
+    const admin = req.session.admin;
+    if (!admin) {
         return res.status(403).send("Access Denied");
     }
 
     const db = await dbPromise;
-    const { firstname, lastname, role } = req.body;
+    const { firstname, lastname, role } = req.body; // Hent role fra skjemaet
     const userId = req.params.id;
 
     try {
+        // Oppdater brukerens informasjon, inkludert rolle
         await db.run(
             "UPDATE users SET firstname = ?, lastname = ?, role = ? WHERE id = ?",
             [firstname, lastname, role, userId]
         );
 
-        res.redirect("/admin"); // Gå tilbake til admin-panelet etter oppdatering
+        res.redirect("/admin");  // Gå tilbake til admin-panelet etter oppdatering
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).send("Error updating user.");
     }
 });
+
 
 app.get('/movies/add', async (req, res) => {
     if (!req.session.loggedin) {
@@ -340,7 +362,7 @@ app.post('/movies/add', async (req, res) => {
         await db.run('INSERT INTO movies (tittel, årstall, rating, regissør, sjanger, image_url, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [tittel, årstall, rating, regissør, sjanger, image_url, userId]);
 
         // Omdiriger brukeren tilbake til hjemmesiden etter at filmen er lagt til
-        res.redirect('/home'); 
+        res.redirect('/home');
     } catch (error) {
         console.error('Error while adding movie:', error);
         res.status(500).send('Noe gikk galt. Vennligst prøv igjen senere.');
@@ -372,7 +394,7 @@ app.post('/movies/edit/:id', async (req, res) => {
     const movieId = req.params.id;
 
     const movie = await db.get('SELECT * FROM movies WHERE id = ?', [movieId]);
-    
+
     if (!movie) {
         return res.status(404).send('Film ikke funnet');
     }
@@ -427,7 +449,7 @@ app.post('/admin/delete/:id', async (req, res) => {
 
     if (movie) {
         await db.run('DELETE FROM movies WHERE id = ?', [movieId]);
-        res.redirect('/admin');  // Send admin tilbake til admin-siden
+        res.redirect('/home');  // Send admin tilbake til admin-siden
     } else {
         res.status(404).send('Film ikke funnet');
     }

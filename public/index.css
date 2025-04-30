@@ -1,0 +1,102 @@
+/* === Globale variabler og basisstil === */
+:root {
+    --text-color: #2d3748;
+    --accent-color: #3a66db;
+    --background-color: #f7f9fc;
+    --panel-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --hover-bg: rgba(58, 102, 219, 0.08);
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* === Navigasjon === */
+  header {
+    width: 100%;
+    background-color: var(--panel-bg);
+    border-bottom: 1px solid var(--input-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+  }
+  
+  .navlinks {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style-type: none;
+  }
+  
+  .navlinks li {
+    display: inline-block;
+  }
+  
+  .navlinks a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #4a5568;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .navlinks a:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent-color);
+  }
+  
+  /* === Hovedinnhald === */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .container h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .container p {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 2rem;
+  }
+  
+  /* === Knappestil === */
+  .save-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-color);
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-btn:hover {
+    background-color: #2a54c7;
+  }
+  

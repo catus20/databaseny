@@ -16,3 +16,14 @@ function toggleMenu() {
     const navLinks = document.querySelector('.navlinks');
     navLinks.classList.toggle('active');
 }
+
+// Bekreft sletting før det sendes
+function confirmDelete(event) {
+    event.preventDefault();  // Hindrer formens standard oppførsel
+    const userConfirmed = confirm("Er du sikker på at du vil slette denne filmen?");
+    
+    if (userConfirmed) {
+      event.target.submit();  // Sender formen hvis brukeren bekrefter
+    }
+    return false;  // Sørg for at ingen ytterligere handling skjer hvis ikke bekreftet
+  }

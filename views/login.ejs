@@ -5,98 +5,8 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <title>Login</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <style>
-        /* === Globale variabler og basisstil === */
-        :root {
-            --text-color: #f0f0f0;
-            --accent-color: #00ff88;
-            --background-color: #0d1a17;
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(0, 255, 136, 0.2);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* === Navigasjon === */
-        header {
-            width: 100%;
-            background-color: rgba(0, 255, 136, 0.05);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navlinks {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            list-style-type: none;
-        }
-
-        .navlinks li {
-            display: inline-block;
-        }
-
-        .navlinks a {
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        .navlinks a.active {
-            background-color: rgba(0, 255, 136, 0.1);
-            color: var(--accent-color);
-        }
-
-        .navlinks a:hover {
-            background-color: rgba(0, 255, 136, 0.1);
-            color: var(--accent-color);
-        }
-
-        /* === Form styling === */
-        .form-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100vh; /* Full høgde */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .form-box {
-            position: absolute;
-            width: 300px; /* Juster breidde som du vil */
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .form-box.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-    </style>
+    <link href="login.css" rel="stylesheet">
+        
 </head>
 <body>
     <header>
@@ -154,20 +64,21 @@
     <script src="script.js"></script>
     <script>
         function toggleForm() {
-          const loginForm = document.getElementById('login-form');
-          const registerForm = document.getElementById('register-form');
-      
-          if (loginForm.classList.contains('active')) {
-            loginForm.classList.remove('active');
-            registerForm.classList.add('active');
-          } else {
-            registerForm.classList.remove('active');
-            loginForm.classList.add('active');
-          }
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            if (loginForm.classList.contains('active')) {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+            } else {
+                registerForm.classList.remove('active');
+                loginForm.classList.add('active');
+            }
         }
-      
+
         // Sett login aktiv frå start
         document.getElementById('login-form').classList.add('active');
+
     </script>
 </body>
 </html>

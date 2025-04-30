@@ -1,27 +1,34 @@
 #containerprofile {
-    max-width: 800px;
-    margin: 100px auto 0 auto; /* Sentrum + litt luft frå toppen */
+    max-width: 900px;
+    margin: 100px auto 0 auto;
     padding: 30px;
-    background-color: #0e1c18; /* same mørke tema som resten */
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 255, 150, 0.2); /* Litt neon touch */
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center; /* Midtstillar teksten */
+    background-color: var(--panel-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    text-align: center;
+    border: 1px solid var(--border);
 }
 
+/* Button with matching style */
 .btn {
-    display: inline-block; /* Gjer at lenka fungerer som ein knapp */
-    background-color: #00ff96; /* Neon grøn farge */
-    color: #0e1c18; /* Mørk bakgrunnsfarge på knappen */
-    padding: 10px 20px; /* Litt padding for knappestørrelse */
-    border-radius: 8px; /* Runde hjørner på knappen */
-    text-decoration: none; /* Fjern understreking på lenken */
-    font-weight: bold;
-    transition: background-color 0.3s ease; /* Legg til overgang for hover-effekt */
+    display: inline-block;
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    border: none;
+    box-shadow: none;
 }
 
 .btn:hover {
-    background-color: #00cc7a; /* Lett mørkere grønn på hover */
+    background-color: #2a54c7;
+    transform: translateY(-1px);
     cursor: pointer;
 }

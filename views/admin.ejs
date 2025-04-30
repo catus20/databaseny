@@ -62,7 +62,7 @@
                                 <td data-label="Etternavn"><%= user.lastname %></td>
                                 <td data-label="Email"><%= user.email %></td>
                                 <td class="actions">
-                                    <a href="/admin/edit/<%= user.id %>" class="editTable-btn">
+                                    <a href="/admin/edit-user/<%= user.id %>" class="editTable-btn">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form action="/admin/delete/<%= user.id %>" method="post"

@@ -6,114 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EmreBoxd</title>
   <script src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
-  <style>
-    /* === Globale variabler og basisstil === */
-    :root {
-      --text-color: #f0f0f0;
-      --accent-color: #00ff88;
-      --background-color: #0d1a17;
-      --input-bg: rgba(255, 255, 255, 0.05);
-      --input-border: rgba(0, 255, 136, 0.2);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-    }
-
-    /* === Navigasjon === */
-    header {
-      width: 100%;
-      background-color: rgba(0, 255, 136, 0.05);
-      border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navlinks {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      list-style-type: none;
-    }
-
-    .navlinks li {
-      display: inline-block;
-    }
-
-    .navlinks a {
-      font-weight: bold;
-      font-size: 1rem;
-      color: var(--text-color);
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      transition: background-color 0.3s ease;
-    }
-
-    .navlinks a:hover {
-      background-color: rgba(0, 255, 136, 0.1);
-      color: var(--accent-color);
-    }
-
-    /* === Hovedinnhold === */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-
-    .container h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .container p {
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    /* === Knappestil === */
-    .save-btn {
-      padding: 0.75rem 1.5rem;
-      background-color: var(--accent-color);
-      border: none;
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .save-btn:hover {
-      background-color: #00cc70;
-    }
-  </style>
+  <link rel="stylesheet" href="/index.css">
 </head>
 
 <body>
   <header>
     <nav aria-label="Hovedmeny">
-            <ul class="navlinks">
-                <li><i class="fas fa-home"></i><a href="/">Heim</a></li>
-                <li><i class="fas fa-lock"></i><a href="/login" class="active">Logg inn</a></li>
-            </ul>
-        </nav>
+      <ul class="navlinks">
+        <li><i class="fas fa-home"></i><a href="/">Heim</a></li>
+        <li><i class="fas fa-lock"></i><a href="/login" class="active">Logg inn</a></li>
+      </ul>
+    </nav>
   </header>
+
+
+
 
   <main>
     <div class="container">
@@ -125,5 +32,4 @@
     </div>
   </main>
 </body>
-
 </html>
